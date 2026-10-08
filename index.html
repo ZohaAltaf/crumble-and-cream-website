@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#3E2723" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Crumble & Cream — Handcrafted Bakery, Karachi</title>
+  
+  <!-- === GOOGLE FONTS === -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- ======================= -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+
+    <nav class="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="cakes.html">Shop</a>
+      <a href="special-gifts.html">Special Gifts</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-icon" aria-label="Search" onclick="document.querySelector('.search-box').scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(() => document.querySelector('.search-box input').focus(), 400);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3E2723" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="cart.html" class="btn-icon" id="cart-icon" aria-label="Cart" style="position:relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3E2723" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 002 1.6h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="login.html" class="btn-outline btn">Login</a>
+      <a href="signup.html" class="btn-primary btn">Sign Up</a>
+      <button class="hamburger" aria-label="Menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="cakes.html">Shop</a>
+  <a href="special-gifts.html">Special Gifts</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</nav>
+
+<!-- ============ MOVING CATEGORY BAR ============ -->
+<div class="category-bar">
+  <div class="category-track">
+    <a href="cakes.html" class="category-pill active"><img src="https://images.unsplash.com/photo-1535911765168-1fafc87dcfa3?auto=format&fit=crop&w=800&q=80" alt="Cakes" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Cakes</span></a>
+    <a href="cupcakes.html" class="category-pill"><img src="https://images.unsplash.com/photo-1587536849024-daaa4a417b16?auto=format&fit=crop&w=800&q=80" alt="Cup Cakes" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Cup Cakes</span></a>
+    <a href="pastries.html" class="category-pill"><img src="https://images.unsplash.com/photo-1725545901708-27d59e5c4226?auto=format&fit=crop&w=800&q=80" alt="Pastries" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Pastries</span></a>
+    <a href="nimco.html" class="category-pill"><img src="https://images.unsplash.com/photo-1725545901708-27d59e5c4226?auto=format&fit=crop&w=800&q=80" alt="Nimco" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Nimco</span></a>
+    <a href="biscuits.html" class="category-pill"><img src="https://images.unsplash.com/photo-1571165841024-2ce92069301d?auto=format&fit=crop&w=800&q=80" alt="Biscuits" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Biscuits</span></a>
+    <a href="chocolates.html" class="category-pill"><img src="https://images.unsplash.com/photo-1756318084626-de5cf8bab8c6?auto=format&fit=crop&w=800&q=80" alt="Chocolates" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Chocolates</span></a>
+    <a href="desserts.html" class="category-pill"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Desserts" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Desserts</span></a>
+    <a href="breads.html" class="category-pill"><img src="https://images.unsplash.com/photo-1650123465396-a065c2340715?auto=format&fit=crop&w=800&q=80" alt="Breads" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Breads</span></a>
+    <a href="special-gifts.html" class="category-pill"><img src="https://images.unsplash.com/photo-1756318084626-de5cf8bab8c6?auto=format&fit=crop&w=800&q=80" alt="Special Gifts" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Special Gifts</span></a>
+    <a href="juices.html" class="category-pill"><img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=800&q=80" alt="Juices" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;" /><span>Juices</span></a>
+  </div>
+</div>
+
+<!-- ============ HERO SLIDER ============ -->
+<section class="hero">
+  <div class="hero-track">
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1535911765168-1fafc87dcfa3?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;">
+      <div class="container">
+        <div class="hero-content">
+          <p class="eyebrow" data-stagger>Freshly Baked, Always</p>
+          <h1 data-stagger>Freshly Baked Happiness</h1>
+          <p data-stagger>Delicious cakes made with love, delivered warm across Karachi — every slice, a little celebration.</p>
+          <a href="cakes.html" class="btn btn-primary magnetic" data-stagger>Shop Cakes</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;">
+      <div class="container">
+        <div class="hero-content">
+          <p class="eyebrow">Something For The Sweet Tooth</p>
+          <h1>Sweet Moments Deserve Something Special</h1>
+          <p>From molten lava cakes to delicate mousse cups — desserts worth slowing down for.</p>
+          <a href="desserts.html" class="btn btn-primary magnetic">Explore Desserts</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1756318084626-de5cf8bab8c6?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;">
+      <div class="container">
+        <div class="hero-content">
+          <p class="eyebrow">Made To Order</p>
+          <h1>Celebrate With Our Customized Cakes</h1>
+          <p>Choose your size, flavor and message — we'll bring your celebration to life.</p>
+          <a href="cakes.html" class="btn btn-primary magnetic">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1650123465396-a065c2340715?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;">
+      <div class="container">
+        <div class="hero-content">
+          <p class="eyebrow">Gifting, Reimagined</p>
+          <h1>Beautiful Gifts. Delicious Memories.</h1>
+          <p>Curated hampers and chocolate boxes for every occasion, big or small.</p>
+          <a href="special-gifts.html" class="btn btn-primary magnetic">Explore Gifts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="hero-arrow prev" aria-label="Previous slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="hero-arrow next" aria-label="Next slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="hero-dots"></div>
+</section>
+
+<!-- ============ TODAY'S SPECIAL HIGHLIGHT BANNER ============ -->
+<section style="background: var(--warm-white); padding: 2.5rem 0; border-top: 1px solid rgba(62,39,35,0.08); border-bottom: 1px solid rgba(62,39,35,0.08);">
+  <div class="container text-center">
+    <div class="reveal" style="max-width: 700px; margin: 0 auto;">
+      <span class="eyebrow" style="display:inline-block; margin-bottom: 0.4rem;">Limited Time Offer</span>
+      <h3 style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--brown-dark); margin-bottom: 0.6rem;">Free Delivery Across Karachi On Orders Above Rs. 2,500!</h3>
+      <p style="color: var(--brown-mid); font-size: 0.95rem; margin-bottom: 1.2rem;">Order your favorite fresh cakes, pastries, or traditional sweets today and enjoy doorstep delivery with zero delivery charges.</p>
+      <a href="cakes.html" class="btn btn-outline" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Claim Offer Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEARCH BAR ============ -->
+<div class="container search-wrap" style="margin-top: 3rem;">
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Search cakes, pastries, chocolates..." />
+    <button aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+  </div>
+  <div id="search-results"></div>
+</div>
+
+<!-- ============ POPULAR PRODUCTS (Firebase-driven) ============ -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Popular This Week</p>
+        <h2>Loved By Regulars</h2>
+      </div>
+      <a href="cakes.html" class="btn btn-outline">Shop All</a>
+    </div>
+
+    <div class="grid grid--4" id="featured-products"></div>
+  </div>
+</section>
+
+<!-- ============ SPECIAL GIFT SECTION ============ -->
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6">
+        <div class="reveal">
+          <p class="eyebrow">Special Gifts</p>
+          <h2>Customize Your Gift Box</h2>
+          <p style="margin:1rem 0 1.6rem; color:var(--brown-mid);">Pick a theme, choose your treats, and add a personal note — we'll wrap it beautifully and deliver it fresh.</p>
+          <a href="special-gifts.html" class="btn btn-primary magnetic">Customize Your Gift</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="reveal" style="aspect-ratio:4/3; border-radius:var(--radius-lg); overflow:hidden;"><img src="https://images.unsplash.com/photo-1756318084626-de5cf8bab8c6?auto=format&fit=crop&w=1600&q=80" alt="Customized gift box" style="width:100%;height:100%;object-fit:cover;" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY CHOOSE US ============ -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head"><div><p class="eyebrow">Why Crumble & Cream</p><h2>Baked With Care, Delivered With Love</h2></div></div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); height:100%;">
+          <h3>Fresh, Daily</h3>
+          <p style="color:var(--brown-mid); margin-top:0.6rem;">Every item is baked to order — nothing sits on a shelf waiting for you.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); height:100%;">
+          <h3>Karachi, Covered</h3>
+          <p style="color:var(--brown-mid); margin-top:0.6rem;">From Clifton to North Karachi, we deliver across the city, on time.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); height:100%;">
+          <h3>Made Personal</h3>
+          <p style="color:var(--brown-mid); margin-top:0.6rem;">Choose your size, flavor, and message — every order feels made for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head"><div><p class="eyebrow">Customer Love</p><h2>What Regulars Are Saying</h2></div></div>
+    <div class="row g-4" id="testimonials">
+      <div class="col-md-4">
+        <div class="testimonial-card reveal" style="height:100%;">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"Beautiful cake and amazing taste! Delivery was right on time for the birthday."</p>
+          <div class="testimonial-name">— Ayesha K., DHA</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card reveal" style="height:100%;">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"The customized message on the cake made it so special. Will order again."</p>
+          <div class="testimonial-name">— Bilal R., Gulshan</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card reveal" style="height:100%;">
+          <div class="testimonial-stars">★★★★★</div>
+          <p>"Ordered a gift box for my mother — packaging and taste both were premium."</p>
+          <div class="testimonial-name">— Sana M., Clifton</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER + FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row g-4 footer-grid-row">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="footer-logo">Crumble & Cream</div>
+        <p style="font-size:0.92rem;">Handcrafted cakes, pastries and gifts, baked fresh and delivered across Karachi.</p>
+        <div class="social-row">
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">IG</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">FB</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">TT</a>
+          <a href="https://wa.me/923000000000" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">WA</a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-6 col-lg-3">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="order-tracking.html">Track Order</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-sm-6 col-lg-3">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="cakes.html">Cakes</a></li>
+          <li><a href="pastries.html">Pastries</a></li>
+          <li><a href="chocolates.html">Chocolates</a></li>
+          <li><a href="special-gifts.html">Special Gifts</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <h4>Subscribe For Sweet Updates</h4>
+        <p style="font-size:0.9rem;">New flavors, seasonal offers, and more — straight to your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); this.insertAdjacentHTML('afterend', '<p style=\'margin-top:0.6rem;font-size:0.85rem;color:var(--brown-mid);\'>Thanks for subscribing! (Email capture backend not connected yet.)</p>'); return false;">
+          <input type="email" placeholder="Your email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Crumble & Cream. All Rights Reserved. Delivering across Karachi.</div>
+  </div>
+  <div class="container footer-legal" style="padding:0.8rem 0; border-top:1px solid rgba(250,249,247,0.15); display:flex; flex-wrap:wrap; gap:0.7rem 1.2rem; font-size:0.8rem; opacity:0.85;">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-conditions.html">Terms &amp; Conditions</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="gift-cards.html">Gift Cards</a>
+    <a href="loyalty-rewards.html">Loyalty Rewards</a>
+    <a href="corporate-orders.html">Corporate Orders</a>
+    <a href="event-countdown.html">Event Countdown</a>
+    <a href="build-your-box.html">Build Your Own Box</a>
+    <a href="reviews-all.html">All Reviews</a>
+  </div>
+</footer>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/923000000000" class="btn-icon" style="position:fixed; bottom:24px; left:24px; width:56px; height:56px; background:#25D366; z-index:150; box-shadow:var(--shadow-lift);" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.77.46 3.45 1.32 4.94L2 22l5.29-1.38a9.9 9.9 0 004.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
+</a>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="js/cart.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module">
+  import { loadFeaturedProducts, searchProducts } from './js/products.js';
+
+  loadFeaturedProducts('#featured-products', 8);
+
+  const input = document.getElementById('search-input');
+  let debounceTimer;
+  input.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => searchProducts(input.value, '#search-results'), 350);
+  });
+</script>
+</body>
+</html>
