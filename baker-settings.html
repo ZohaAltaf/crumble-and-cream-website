@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Settings — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="baker-dashboard.html">Dashboard</a>
+      <a href="baker-dashboard.html">Orders</a>
+      <a href="baker-products.html">Products</a>
+      <a href="baker-add-product.html">Add Product</a>
+      <a href="baker-customers.html">Customers</a>
+      <a href="baker-reviews.html">Reviews</a>
+      <a href="baker-messages.html">Messages</a>
+      <a href="baker-settings.html" class="active">Settings</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2 style="margin-bottom:0.3rem;">Settings</h2>
+    <p style="color:var(--brown-mid); margin-bottom:1.5rem;">These values are used live on the Checkout page.</p>
+
+    <div class="order-card" style="max-width:480px; padding:var(--space-lg);">
+      <div class="form-group">
+        <label>Delivery Charge (Rs.)</label>
+        <input id="s-delivery" type="number" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Minimum Order Amount (Rs.)</label>
+        <input id="s-min-order" type="number" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Same-Day Delivery Cutoff Hour (24-hour, e.g. 16 = 4 PM)</label>
+        <input id="s-cutoff" type="number" min="0" max="23" />
+      </div>
+      <button id="s-save" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">Save Settings</button>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { getSiteSettings, saveSiteSettings } from './js/baker-admin.js';
+  import { showToast } from './js/toast.js';
+
+  protectPage('baker').then(async () => {
+    const settings = await getSiteSettings();
+    document.getElementById('s-delivery').value = settings.deliveryCharge;
+    document.getElementById('s-min-order').value = settings.minOrderAmount;
+    document.getElementById('s-cutoff').value = settings.sameDayCutoffHour;
+  });
+
+  document.getElementById('s-save').addEventListener('click', async () => {
+    const deliveryCharge = parseFloat(document.getElementById('s-delivery').value);
+    const minOrderAmount = parseFloat(document.getElementById('s-min-order').value);
+    const sameDayCutoffHour = parseInt(document.getElementById('s-cutoff').value, 10);
+
+    if (isNaN(deliveryCharge) || isNaN(minOrderAmount) || isNaN(sameDayCutoffHour)) {
+      showToast('Please fill in all fields with valid numbers.', 'error');
+      return;
+    }
+
+    try {
+      await saveSiteSettings({ deliveryCharge, minOrderAmount, sameDayCutoffHour });
+      showToast('Settings saved!');
+    } catch (err) {
+      console.error(err);
+      showToast('Could not save settings.', 'error');
+    }
+  });
+
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

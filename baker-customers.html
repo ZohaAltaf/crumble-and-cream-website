@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Customers — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="baker-dashboard.html">Dashboard</a>
+      <a href="baker-dashboard.html">Orders</a>
+      <a href="baker-products.html">Products</a>
+      <a href="baker-add-product.html">Add Product</a>
+      <a href="baker-customers.html" class="active">Customers</a>
+      <a href="baker-reviews.html">Reviews</a>
+      <a href="baker-messages.html">Messages</a>
+      <a href="baker-settings.html">Settings</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2 style="margin-bottom:0.3rem;">Customers</h2>
+    <p style="color:var(--brown-mid); margin-bottom:1.5rem;">Everyone who has signed up on the site.</p>
+
+    <div id="customers-list">
+      <p style="color:var(--brown-mid);">Loading customers...</p>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { loadCustomers } from './js/baker-admin.js';
+  import { escapeHTML } from './js/products.js';
+
+  protectPage('baker').then(async () => {
+    const list = document.getElementById('customers-list');
+    try {
+      const customers = await loadCustomers();
+      if (customers.length === 0) {
+        list.innerHTML = `<p style="color:var(--brown-mid);">No customers have signed up yet.</p>`;
+        return;
+      }
+      list.innerHTML = customers.map(c => `
+        <div class="order-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:500;">${escapeHTML(c.name) || 'Unnamed'}</div>
+              <div style="font-size:0.85rem; color:var(--brown-mid); margin-top:0.2rem;">${escapeHTML(c.email)}${c.phone ? ' · ' + escapeHTML(c.phone) : ''}</div>
+            </div>
+            <div style="font-size:0.78rem; color:var(--brown-mid);">${c.createdAt?.seconds ? new Date(c.createdAt.seconds * 1000).toLocaleDateString() : ''}</div>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error(err);
+      list.innerHTML = `<p style="color:var(--brown-mid);">Could not load customers.</p>`;
+    }
+  });
+
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
