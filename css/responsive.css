@@ -1,0 +1,92 @@
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .grid--4 { grid-template-columns: repeat(3, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 860px) {
+  .main-nav { display: none; }
+  .hamburger { display: flex; }
+
+  .header-actions .btn-outline,
+  .header-actions .btn-primary { display: none; }
+
+  .grid--4, .grid--3 { grid-template-columns: repeat(2, 1fr); }
+
+  .hero-track { height: 78vh; min-height: 460px; }
+  .hero-content { max-width: 90%; }
+
+  /* JS no longer pins/scrub-scrolls this section below 860px (see
+     initPinSection in animations.js) — make it a normal swipeable strip
+     instead of a huge blank pinned area with only the first card visible. */
+  .pin-section { height: auto !important; transform: none !important; }
+  .pin-section .pin-track {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: none !important;
+    scroll-snap-type: x proximity;
+  }
+  .pin-section .pin-track .product-card { scroll-snap-align: start; }
+
+  .hero-arrow { width: 38px; height: 38px; }
+
+  .cursor-dot { display: none; }
+}
+
+@media (max-width: 560px) {
+  .grid--4, .grid--3 { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+  .section { padding: var(--space-xl) 0; }
+  h1 { font-size: 2.2rem; }
+  .search-box { padding-left: 1.1rem; }
+  .cat-card { height: 220px; }
+}
+
+/* Mobile off-canvas nav (built via JS toggling .nav-open on body) */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(78vw, 340px);
+  background: var(--warm-white);
+  z-index: 200;
+  padding: 6rem var(--space-md) var(--space-md);
+  transform: translateX(100%);
+  transition: transform 0.4s var(--ease);
+  box-shadow: var(--shadow-lift);
+}
+
+body.nav-open .mobile-nav { transform: translateX(0); }
+
+.mobile-nav a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--brown-deep);
+}
+
+.nav-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(43,27,23,0.4);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+body.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
