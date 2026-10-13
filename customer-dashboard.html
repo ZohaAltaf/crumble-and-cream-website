@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>My Dashboard — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="customer-dashboard.html" class="active">Dashboard</a>
+      <a href="#" id="tab-all">My Orders</a>
+      <a href="#" id="tab-pending">Pending Orders</a>
+      <a href="#" id="tab-completed">Completed Orders</a>
+      <a href="wishlist.html">Favorites</a>
+      <a href="customer-profile.html">My Profile</a>
+      <a href="customer-addresses.html">Saved Addresses</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2 id="welcome-msg">Welcome back!</h2>
+    <p style="color:var(--brown-mid); margin-bottom:2rem;">Here's what's happening with your orders.</p>
+
+    <div class="dash-stats">
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value" id="stat-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value" id="stat-pending">0</div></div>
+      <div class="stat-card"><div class="stat-label">Completed Orders</div><div class="stat-value" id="stat-completed">0</div></div>
+      <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value" id="stat-spent" style="font-size:1.4rem;">Rs. 0</div></div>
+    </div>
+
+    <h3 style="margin-bottom:1rem;">Recent Orders</h3>
+    <div id="orders-list"></div>
+  </main>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { loadCustomerOrders, computeStats, orderCardHTML } from './js/customer-dashboard.js';
+  import { addToCart } from './js/cart.js';
+  import { showToast } from './js/toast.js';
+
+  let allOrders = [];
+  let currentFilter = 'all';
+
+  function render() {
+    const filtered = currentFilter === 'all'
+      ? allOrders
+      : currentFilter === 'pending'
+        ? allOrders.filter(o => !['Delivered', 'Cancelled'].includes(o.status))
+        : allOrders.filter(o => o.status === 'Delivered');
+
+    const list = document.getElementById('orders-list');
+    list.innerHTML = filtered.length
+      ? filtered.map(orderCardHTML).join('')
+      : `<p style="color:var(--brown-mid);">No orders in this view yet.</p>`;
+
+    list.querySelectorAll('.order-again-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const order = allOrders.find((o) => o.id === btn.dataset.orderId);
+        if (!order || !order.products?.length) return;
+        order.products.forEach((item) => addToCart({ ...item }, item.qty || 1));
+        showToast('Items added to your cart!');
+        window.location.href = 'cart.html';
+      });
+    });
+  }
+
+  protectPage('customer').then(({ profile, user }) => {
+    document.getElementById('welcome-msg').textContent = `Welcome back, ${profile?.name || 'Customer'}!`;
+
+    loadCustomerOrders(user.uid, {
+      onOrders: (orders) => {
+        allOrders = orders;
+        const stats = computeStats(orders);
+        document.getElementById('stat-total').textContent = stats.total;
+        document.getElementById('stat-pending').textContent = stats.pending;
+        document.getElementById('stat-completed').textContent = stats.completed;
+        document.getElementById('stat-spent').textContent = 'Rs. ' + stats.spent.toLocaleString();
+        render();
+      }
+    });
+  });
+
+  document.getElementById('tab-all').addEventListener('click', (e) => { e.preventDefault(); currentFilter = 'all'; render(); });
+  document.getElementById('tab-pending').addEventListener('click', (e) => { e.preventDefault(); currentFilter = 'pending'; render(); });
+  document.getElementById('tab-completed').addEventListener('click', (e) => { e.preventDefault(); currentFilter = 'completed'; render(); });
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

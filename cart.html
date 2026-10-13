@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Your Cart — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="cakes.html">Shop</a>
+      <a href="special-gifts.html">Special Gifts</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="btn-icon" id="cart-icon" style="position:relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3E2723" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 002 1.6h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="login.html" class="btn-outline btn">Login</a><a href="signup.html" class="btn-primary btn">Sign Up</a>
+      <button class="hamburger"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="cakes.html">Shop</a><a href="login.html">Login</a>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <h1 style="margin-bottom:2rem;">Your Cart</h1>
+
+    <div id="cart-layout" style="display:grid; grid-template-columns: 1fr 380px; gap: var(--space-lg); align-items:start;">
+      <div id="cart-items"></div>
+
+      <div style="background:var(--warm-white); border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-soft); position:sticky; top:110px;">
+        <h3 style="margin-bottom:1.2rem;">Order Summary</h3>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem; font-size:0.95rem;"><span>Subtotal</span><span id="sum-subtotal">Rs. 0</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem; font-size:0.95rem;"><span>Delivery Charges</span><span id="sum-delivery">Rs. 150</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem; color:var(--brown-mid);"><span>Discount</span><span id="sum-discount">Rs. 0</span></div>
+        <div style="border-top:1px solid var(--line); padding-top:1rem; display:flex; justify-content:space-between; font-family:var(--font-display); font-size:1.2rem; color:var(--brown-deep); margin-bottom:1.4rem;"><span>Total</span><span id="sum-total">Rs. 0</span></div>
+        <a href="checkout.html" class="btn btn-primary magnetic" style="width:100%; justify-content:center;">Proceed to Checkout</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">© 2026 Crumble & Cream. All Rights Reserved.</div>
+  <div class="container footer-legal" style="padding:0.8rem 0; border-top:1px solid rgba(250,249,247,0.15); display:flex; flex-wrap:wrap; gap:0.7rem 1.2rem; font-size:0.8rem; opacity:0.85;">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-conditions.html">Terms &amp; Conditions</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="gift-cards.html">Gift Cards</a>
+    <a href="loyalty-rewards.html">Loyalty Rewards</a>
+    <a href="corporate-orders.html">Corporate Orders</a>
+    <a href="event-countdown.html">Event Countdown</a>
+    <a href="build-your-box.html">Build Your Own Box</a>
+    <a href="reviews-all.html">All Reviews</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module">
+  import { getCartItems, removeFromCart, updateQty, getCartTotal } from './js/cart.js';
+  import { getFirstOrderDiscount } from './js/checkout.js';
+  import { escapeHTML } from './js/products.js';
+
+  const DELIVERY_CHARGE = 150;
+
+  function render() {
+    const items = getCartItems();
+    const container = document.getElementById('cart-items');
+
+    if (items.length === 0) {
+      container.innerHTML = `
+        <div style="background:var(--warm-white); border-radius:var(--radius-md); padding:var(--space-xl); text-align:center; box-shadow:var(--shadow-soft);">
+          <img src="https://images.unsplash.com/photo-1571165841024-2ce92069301d?auto=format&fit=crop&w=1200&q=80" alt="Empty cart" style="height:160px;width:100%;object-fit:cover;border-radius:var(--radius-md);margin-bottom:1.2rem;" />
+          <h3>Your cart is empty</h3>
+          <p style="color:var(--brown-mid); margin:0.6rem auto 1.4rem;">Looks like you haven't added anything sweet yet.</p>
+          <a href="cakes.html" class="btn btn-primary magnetic">Start Shopping</a>
+        </div>`;
+      updateSummary(0);
+      return;
+    }
+
+    container.innerHTML = items.map((item) => `
+      <div style="display:flex; gap:1rem; background:var(--warm-white); border-radius:var(--radius-md); padding:1rem; margin-bottom:1rem; box-shadow:var(--shadow-soft); align-items:center;">
+        ${item.image
+          ? `<img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" style="width:90px; height:90px; border-radius:var(--radius-sm); flex-shrink:0; object-fit:cover;" />`
+          : `<div class="ph" data-label="${escapeHTML(item.name)}" style="width:90px; height:90px; border-radius:var(--radius-sm); flex-shrink:0;"></div>`}
+        <div style="flex:1;">
+          <h4 style="font-size:1rem; margin-bottom:0.2rem;">${escapeHTML(item.name)}</h4>
+          ${item.size ? `<p style="font-size:0.82rem; color:var(--brown-mid);">${escapeHTML(item.size)}${item.flavor ? ' · ' + escapeHTML(item.flavor) : ''}</p>` : ''}
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-top:0.6rem;">
+            <button class="btn-icon qty-btn" data-action="dec" data-id="${item.id}" data-size="${item.size||''}" data-flavor="${item.flavor||''}" style="width:30px;height:30px;">−</button>
+            <span>${item.qty}</span>
+            <button class="btn-icon qty-btn" data-action="inc" data-id="${item.id}" data-size="${item.size||''}" data-flavor="${item.flavor||''}" style="width:30px;height:30px;">+</button>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--font-display); color:var(--brown-deep); margin-bottom:0.6rem;">Rs. ${(item.price * item.qty).toLocaleString()}</div>
+          <button class="remove-btn" data-id="${item.id}" data-size="${item.size||''}" data-flavor="${item.flavor||''}" style="font-size:0.8rem; color:#b23b2f; text-decoration:underline;">Remove</button>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.qty-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const items = getCartItems();
+        const item = items.find((i) => i.id === btn.dataset.id && (i.size||'') === btn.dataset.size && (i.flavor||'') === btn.dataset.flavor);
+        if (!item) return;
+        const newQty = btn.dataset.action === 'inc' ? item.qty + 1 : item.qty - 1;
+        if (newQty <= 0) {
+          removeFromCart(item.id, item.size, item.flavor);
+        } else {
+          updateQty(item.id, item.size, item.flavor, newQty);
+        }
+        render();
+      });
+    });
+
+    container.querySelectorAll('.remove-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        removeFromCart(btn.dataset.id, btn.dataset.size, btn.dataset.flavor);
+        render();
+      });
+    });
+
+    updateSummary(getCartTotal());
+  }
+
+  async function updateSummary(subtotal) {
+    const delivery = subtotal > 0 ? DELIVERY_CHARGE : 0;
+    const discount = subtotal > 0 ? await getFirstOrderDiscount(subtotal) : 0;
+    document.getElementById('sum-subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
+    document.getElementById('sum-delivery').textContent = 'Rs. ' + delivery.toLocaleString();
+    document.getElementById('sum-discount').textContent = (discount > 0 ? '- ' : '') + 'Rs. ' + discount.toLocaleString();
+    document.getElementById('sum-total').textContent = 'Rs. ' + (subtotal + delivery - discount).toLocaleString();
+  }
+
+  render();
+  window.addEventListener('cnc-cart-restored', render);
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Checkout — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="cakes.html">Shop</a><a href="contact.html">Contact</a></nav>
+    <div class="header-actions"><button class="hamburger"><span></span></button></div>
+  </div>
+</header>
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="cakes.html">Shop</a>
+  <a href="special-gifts.html">Special Gifts</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <h1 style="margin-bottom:0.5rem;">Checkout</h1>
+    <p style="color:var(--brown-mid); margin-bottom:2rem;">We currently deliver only within Karachi.</p>
+
+    <div class="checkout-progress"><div class="checkout-progress-fill" id="progress-fill"></div></div>
+
+    <div class="checkout-grid">
+      <div>
+        <!-- STEP 1: Contact -->
+        <div class="checkout-step visible" data-step="1">
+          <h3 style="margin-bottom:1rem;">Contact Details</h3>
+          <div class="field-row">
+            <div class="form-group"><label>Full Name</label><input type="text" id="c-name" required /></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="c-phone" placeholder="03XX-XXXXXXX" required /></div>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="c-email" required /></div>
+          <button class="btn btn-primary magnetic" id="to-step-2">Continue</button>
+        </div>
+
+        <!-- STEP 2: Address -->
+        <div class="checkout-step" data-step="2">
+          <h3 style="margin-bottom:1rem;">Delivery Address</h3>
+          <div class="form-group"><label>Complete Address</label><input type="text" id="c-address" required /></div>
+
+          <div class="field-row">
+            <div class="form-group city-input-wrap">
+              <label>Area (Karachi only)</label>
+              <input type="text" id="c-area" placeholder="e.g. Clifton, DHA, Gulshan..." autocomplete="off" required />
+              <div class="city-suggestions" id="area-suggestions"></div>
+              <div class="city-error-msg" id="city-error">Sorry! Crumble & Cream currently delivers only within Karachi.</div>
+            </div>
+            <div class="form-group"><label>Landmark (optional)</label><input type="text" id="c-landmark" /></div>
+          </div>
+
+          <button type="button" class="location-btn" id="use-location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Use My Location
+          </button>
+          <p id="location-status" style="font-size:0.8rem; color:var(--brown-mid); margin-top:0.4rem;"></p>
+
+          <div style="margin-top:1.4rem;">
+            <button class="btn btn-outline" id="back-to-1">Back</button>
+            <button class="btn btn-primary magnetic" id="to-step-3">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Delivery Date/Time -->
+        <div class="checkout-step" data-step="3">
+          <h3 style="margin-bottom:1rem;">Delivery Date & Time</h3>
+          <div class="form-group"><label>Delivery Date</label><input type="date" id="c-date" required /></div>
+
+          <label style="display:block; font-size:0.85rem; color:var(--brown-mid); margin-bottom:0.4rem;">Delivery Time Slot</label>
+          <div class="time-slot-grid" id="time-slots">
+            <div class="time-slot" data-time="10am-12pm">10am - 12pm</div>
+            <div class="time-slot" data-time="12pm-2pm">12pm - 2pm</div>
+            <div class="time-slot full" data-time="2pm-4pm">2pm - 4pm (Full)</div>
+            <div class="time-slot" data-time="4pm-6pm">4pm - 6pm</div>
+            <div class="time-slot" data-time="6pm-8pm">6pm - 8pm</div>
+            <div class="time-slot" data-time="8pm-10pm">8pm - 10pm</div>
+          </div>
+
+          <div class="form-group" style="margin-top:1.2rem;"><label>Order Notes (optional)</label><input type="text" id="c-notes" placeholder="e.g. cake message, allergy notes..." /></div>
+
+          <div style="margin-top:1rem;">
+            <button class="btn btn-outline" id="back-to-2">Back</button>
+            <button class="btn btn-primary magnetic" id="to-step-4">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Payment -->
+        <div class="checkout-step" data-step="4">
+          <h3 style="margin-bottom:1rem;">Payment Method</h3>
+          <div class="payment-option selected" data-method="COD"><input type="radio" name="pay" checked /> Cash on Delivery</div>
+          <div class="payment-option" data-method="JazzCash"><input type="radio" name="pay" /> JazzCash</div>
+          <div class="payment-option" data-method="EasyPaisa"><input type="radio" name="pay" /> EasyPaisa</div>
+          <div class="payment-option" data-method="Bank Transfer"><input type="radio" name="pay" /> Bank Transfer</div>
+
+          <div style="margin-top:1.2rem; padding:0.9rem 1rem; background:var(--grey-base-light); border-radius:var(--radius-sm); display:flex; align-items:flex-start; gap:0.7rem;">
+            <input type="checkbox" id="c-bake-forward" style="margin-top:0.2rem;" />
+            <label for="c-bake-forward" style="cursor:pointer;">
+              <strong>🎁 Bake it Forward</strong> — add Rs. 100 to send an anonymous treat to someone in need (an orphanage or hospital ward).
+            </label>
+          </div>
+
+          <div style="margin-top:1.4rem;">
+            <button class="btn btn-outline" id="back-to-3">Back</button>
+            <button class="btn btn-primary magnetic" id="place-order-btn">Place Order</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div style="background:var(--warm-white); border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-soft); position:sticky; top:100px;">
+        <h3 style="margin-bottom:1.2rem;">Order Summary</h3>
+        <div id="summary-items" style="margin-bottom:1rem; font-size:0.88rem; color:var(--brown-mid);"></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem; font-size:0.95rem;"><span>Subtotal</span><span id="s-subtotal">Rs. 0</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem;"><span>Delivery</span><span id="s-delivery">Rs. 150</span></div>
+        <div id="s-discount-row" style="display:none; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem; color:#2f7d4f;"><span>🎉 First Order Discount</span><span id="s-discount">- Rs. 0</span></div>
+        <div id="s-bake-forward-row" style="display:none; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem;"><span>🎁 Bake it Forward</span><span id="s-bake-forward">Rs. 100</span></div>
+        <div style="border-top:1px solid var(--line); padding-top:1rem; display:flex; justify-content:space-between; font-family:var(--font-display); font-size:1.2rem; color:var(--brown-deep);"><span>Total</span><span id="s-total">Rs. 0</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module">
+  import { getCartItems, getCartTotal } from './js/cart.js';
+  import { KARACHI_AREAS, isKarachiArea, filterAreaSuggestions, requestLocation, placeOrder, getDeliveryCharge, loadCheckoutSettings, BAKE_IT_FORWARD_AMOUNT, getFirstOrderDiscount } from './js/checkout.js';
+  import { showToast } from './js/toast.js';
+  import { escapeHTML } from './js/products.js';
+
+  let currentStep = 1;
+  let selectedTime = null;
+  let selectedPayment = 'COD';
+  let coords = null;
+
+  // Populate order summary
+  async function renderSummary() {
+    const items = getCartItems();
+    const subtotal = getCartTotal();
+    const bakeForward = document.getElementById('c-bake-forward').checked;
+    const bakeForwardAmount = bakeForward ? BAKE_IT_FORWARD_AMOUNT : 0;
+    const discount = await getFirstOrderDiscount(subtotal);
+
+    document.getElementById('summary-items').innerHTML = items.map(i => `${i.qty} × ${escapeHTML(i.name)}`).join('<br>');
+    document.getElementById('s-subtotal').textContent = 'Rs. ' + subtotal.toLocaleString();
+    document.getElementById('s-delivery').textContent = 'Rs. ' + getDeliveryCharge().toLocaleString();
+    document.getElementById('s-discount-row').style.display = discount > 0 ? 'flex' : 'none';
+    document.getElementById('s-discount').textContent = '- Rs. ' + discount.toLocaleString();
+    document.getElementById('s-bake-forward-row').style.display = bakeForward ? 'flex' : 'none';
+    document.getElementById('s-bake-forward').textContent = 'Rs. ' + bakeForwardAmount.toLocaleString();
+    document.getElementById('s-total').textContent = 'Rs. ' + (subtotal + getDeliveryCharge() - discount + bakeForwardAmount).toLocaleString();
+  }
+  renderSummary();
+  loadCheckoutSettings().then(renderSummary); // refresh once real settings arrive from Firestore
+  document.getElementById('c-bake-forward').addEventListener('change', renderSummary);
+
+  function goToStep(n) {
+    document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('visible'));
+    document.querySelector(`.checkout-step[data-step="${n}"]`).classList.add('visible');
+    document.getElementById('progress-fill').style.width = (n * 25) + '%';
+    currentStep = n;
+  }
+
+  document.getElementById('to-step-2').addEventListener('click', () => {
+    if (!document.getElementById('c-name').value || !document.getElementById('c-phone').value || !document.getElementById('c-email').value) {
+      showToast('Please fill in all contact details.', 'error'); return;
+    }
+    goToStep(2);
+  });
+  document.getElementById('back-to-1').addEventListener('click', () => goToStep(1));
+
+  // Area autocomplete + Karachi validation
+  const areaInput = document.getElementById('c-area');
+  const suggestionsBox = document.getElementById('area-suggestions');
+  const cityError = document.getElementById('city-error');
+
+  areaInput.addEventListener('input', () => {
+    const matches = filterAreaSuggestions(areaInput.value);
+    if (matches.length && areaInput.value.trim()) {
+      suggestionsBox.innerHTML = matches.map(a => `<div>${a}</div>`).join('');
+      suggestionsBox.classList.add('show');
+    } else {
+      suggestionsBox.classList.remove('show');
+    }
+    cityError.classList.remove('show');
+    areaInput.parentElement.classList.remove('shake');
+  });
+
+  suggestionsBox.addEventListener('click', (e) => {
+    if (e.target.tagName === 'DIV') {
+      areaInput.value = e.target.textContent;
+      suggestionsBox.classList.remove('show');
+    }
+  });
+
+  document.getElementById('use-location').addEventListener('click', async () => {
+    const status = document.getElementById('location-status');
+    status.textContent = 'Requesting location permission...';
+    try {
+      coords = await requestLocation();
+      status.textContent = `Location captured (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}). Please confirm your address above.`;
+    } catch {
+      status.textContent = 'Could not get location — please enter your address manually.';
+    }
+  });
+
+  document.getElementById('to-step-3').addEventListener('click', () => {
+    if (!document.getElementById('c-address').value || !areaInput.value) {
+      showToast('Please fill in your address and area.', 'error'); return;
+    }
+    if (!isKarachiArea(areaInput.value)) {
+      cityError.classList.add('show');
+      areaInput.parentElement.classList.add('shake');
+      setTimeout(() => areaInput.parentElement.classList.remove('shake'), 400);
+      return;
+    }
+    goToStep(3);
+  });
+  document.getElementById('back-to-2').addEventListener('click', () => goToStep(2));
+
+  document.querySelectorAll('.time-slot:not(.full)').forEach(slot => {
+    slot.addEventListener('click', () => {
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+      selectedTime = slot.dataset.time;
+    });
+  });
+
+  document.getElementById('to-step-4').addEventListener('click', () => {
+    if (!document.getElementById('c-date').value) { showToast('Please select a delivery date.', 'error'); return; }
+    if (!selectedTime) { showToast('Please select a delivery time slot.', 'error'); return; }
+    goToStep(4);
+  });
+  document.getElementById('back-to-3').addEventListener('click', () => goToStep(3));
+
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      opt.querySelector('input').checked = true;
+      selectedPayment = opt.dataset.method;
+    });
+  });
+
+  document.getElementById('place-order-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('place-order-btn');
+    btn.textContent = 'Placing Order...';
+    btn.disabled = true;
+
+    const orderId = await placeOrder({
+      name: document.getElementById('c-name').value,
+      phone: document.getElementById('c-phone').value,
+      email: document.getElementById('c-email').value,
+      address: document.getElementById('c-address').value,
+      area: areaInput.value,
+      landmark: document.getElementById('c-landmark').value,
+      latitude: coords?.lat,
+      longitude: coords?.lng,
+      deliveryDate: document.getElementById('c-date').value,
+      deliveryTime: selectedTime,
+      notes: document.getElementById('c-notes').value,
+      paymentMethod: selectedPayment,
+      bakeItForward: document.getElementById('c-bake-forward').checked
+    });
+
+    if (orderId) {
+      sessionStorage.setItem('cnc-order-success', orderId);
+      window.location.href = 'index.html';
+    } else {
+      btn.textContent = 'Place Order';
+      btn.disabled = false;
+    }
+  });
+
+  // Disable past dates
+  document.getElementById('c-date').min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>

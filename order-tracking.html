@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Track Your Order — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="cakes.html">Shop</a><a href="contact.html">Contact</a></nav>
+    <div class="header-actions"><button class="hamburger"><span></span></button></div>
+  </div>
+</header>
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="cakes.html">Shop</a>
+  <a href="special-gifts.html">Special Gifts</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</nav>
+
+<section class="section">
+  <div class="container" style="max-width:700px;">
+    <h1 style="margin-bottom:0.5rem;">Track Your Order</h1>
+    <p style="color:var(--brown-mid); margin-bottom:2rem;" id="order-id-label">Loading order details...</p>
+
+    <div style="background:var(--warm-white); border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-soft);">
+      <div id="progress-container"></div>
+
+      <div id="order-details" style="margin-top:1.5rem; font-size:0.92rem; color:var(--brown-mid);"></div>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+  import { watchOrder, renderProgress } from './js/order-tracking.js';
+  import { getDemoOrders, onDemoOrdersChanged } from './js/demo-store.js';
+  import { escapeHTML } from './js/products.js';
+
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get('id');
+
+  function renderDemoOrder() {
+    const order = getDemoOrders().find((o) => o.id === orderId);
+    if (!order) {
+      document.getElementById('order-details').innerHTML = `<p>This demo order could not be found (demo data is stored per-browser and clears if site data is cleared).</p>`;
+      return;
+    }
+    renderProgress('#progress-container', order.status);
+    document.getElementById('order-details').innerHTML = `
+      <p><strong>Delivery to:</strong> ${escapeHTML(order.address)}, ${escapeHTML(order.area)}, Karachi</p>
+      <p style="margin-top:0.4rem;"><strong>Delivery slot:</strong> ${escapeHTML(order.deliveryDate)} · ${escapeHTML(order.deliveryTime)}</p>
+      <p style="margin-top:0.4rem;"><strong>Total:</strong> Rs. ${order.total?.toLocaleString()}</p>
+      <p style="margin-top:0.8rem; font-size:0.82rem;">(Demo mode — Firebase not connected yet; this order lives only in this browser's local storage.)</p>
+    `;
+  }
+
+  if (!orderId) {
+    document.getElementById('order-id-label').textContent = 'No order specified.';
+  } else if (orderId.startsWith('demo-')) {
+    // Firebase isn't configured yet, so this order lives in the local demo
+    // store instead of Firestore — read it from there and stay in sync with
+    // any status changes the baker dashboard makes.
+    document.getElementById('order-id-label').textContent = `Order #${orderId.slice(5, 13).toUpperCase()} (Demo)`;
+    renderDemoOrder();
+    onDemoOrdersChanged(renderDemoOrder);
+  } else {
+    document.getElementById('order-id-label').textContent = `Order #${orderId.slice(0, 8).toUpperCase()}`;
+
+    watchOrder(orderId, (order) => {
+      renderProgress('#progress-container', order.status);
+
+      document.getElementById('order-details').innerHTML = `
+        <p><strong>Delivery to:</strong> ${escapeHTML(order.address)}, ${escapeHTML(order.area)}, Karachi</p>
+        <p style="margin-top:0.4rem;"><strong>Delivery slot:</strong> ${escapeHTML(order.deliveryDate)} · ${escapeHTML(order.deliveryTime)}</p>
+        <p style="margin-top:0.4rem;"><strong>Total:</strong> Rs. ${order.total?.toLocaleString()}</p>
+      `;
+    });
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

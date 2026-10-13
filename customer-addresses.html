@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Saved Addresses — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="customer-dashboard.html">Dashboard</a>
+      <a href="wishlist.html">Favorites</a>
+      <a href="customer-profile.html">My Profile</a>
+      <a href="customer-addresses.html" class="active">Saved Addresses</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2 style="margin-bottom:0.3rem;">Saved Addresses</h2>
+    <p style="color:var(--brown-mid); margin-bottom:1.5rem;">Save an address once, pick it faster at checkout next time.</p>
+
+    <div class="order-card" style="max-width:480px; padding:var(--space-lg); margin-bottom:1.5rem;">
+      <div class="form-group"><label>Label</label><input id="ad-label" placeholder="e.g. Home, Office" /></div>
+      <div class="form-group"><label>Full Address</label><input id="ad-address" placeholder="House / street / building" /></div>
+      <div class="form-group"><label>Area (Karachi)</label><input id="ad-area" placeholder="e.g. Gulshan-e-Iqbal" /></div>
+      <button id="ad-save" class="btn btn-primary" style="width:100%;">Save Address</button>
+    </div>
+
+    <div id="addresses-list"></div>
+  </main>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { isFirebaseConfigured, escapeHTML } from './js/products.js';
+  import { getDemoAddresses, saveDemoAddresses } from './js/demo-store.js';
+  import { showToast } from './js/toast.js';
+  import { db } from './js/firebase-config.js';
+  import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+  let currentUid = null;
+  let addresses = [];
+
+  async function loadAddresses() {
+    if (!isFirebaseConfigured()) {
+      addresses = getDemoAddresses(currentUid);
+    } else {
+      const snap = await getDoc(doc(db, 'addresses', currentUid));
+      addresses = snap.exists() ? (snap.data().list || []) : [];
+    }
+    render();
+  }
+
+  async function persistAddresses() {
+    if (!isFirebaseConfigured()) {
+      saveDemoAddresses(currentUid, addresses);
+    } else {
+      await setDoc(doc(db, 'addresses', currentUid), { list: addresses });
+    }
+  }
+
+  function render() {
+    const list = document.getElementById('addresses-list');
+    if (addresses.length === 0) {
+      list.innerHTML = `<p style="color:var(--brown-mid);">No saved addresses yet.</p>`;
+      return;
+    }
+    list.innerHTML = addresses.map((a, i) => `
+      <div class="order-card" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:500;">${escapeHTML(a.label)}</div>
+          <div style="font-size:0.85rem; color:var(--brown-mid); margin-top:0.2rem;">${escapeHTML(a.address)}, ${escapeHTML(a.area)}, Karachi</div>
+        </div>
+        <button class="btn btn-outline delete-addr-btn" data-index="${i}" style="padding:0.4rem 0.9rem; font-size:0.78rem; border-color:#b23b2f; color:#b23b2f;">Delete</button>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.delete-addr-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        addresses.splice(parseInt(btn.dataset.index, 10), 1);
+        await persistAddresses();
+        render();
+        showToast('Address removed.');
+      });
+    });
+  }
+
+  document.getElementById('ad-save').addEventListener('click', async () => {
+    const label = document.getElementById('ad-label').value.trim();
+    const address = document.getElementById('ad-address').value.trim();
+    const area = document.getElementById('ad-area').value.trim();
+    if (!label || !address || !area) { showToast('Please fill in all fields.', 'error'); return; }
+
+    addresses.push({ label, address, area });
+    await persistAddresses();
+    render();
+    document.getElementById('ad-label').value = '';
+    document.getElementById('ad-address').value = '';
+    document.getElementById('ad-area').value = '';
+    showToast('Address saved!');
+  });
+
+  protectPage('customer').then(({ user }) => {
+    currentUid = user.uid;
+    loadAddresses();
+  });
+
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

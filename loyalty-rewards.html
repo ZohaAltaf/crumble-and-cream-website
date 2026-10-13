@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Loyalty Rewards — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="cakes.html">Shop</a><a href="contact.html">Contact</a></nav>
+    <div class="header-actions"><button class="hamburger"><span></span></button></div>
+  </div>
+</header>
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="cakes.html">Shop</a>
+  <a href="special-gifts.html">Special Gifts</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><div><p class="eyebrow">Rewards</p><h1>Loyalty & Rewards</h1></div></div>
+
+    <div class="dash-stats" style="margin-bottom:2.5rem;">
+      <div class="stat-card"><div class="stat-label">Your Points</div><div class="stat-value" id="pt-points">0</div></div>
+      <div class="stat-card"><div class="stat-label">Current Tier</div><div class="stat-value" id="pt-tier" style="font-size:1.4rem;">Bronze</div></div>
+      <div class="stat-card"><div class="stat-label">Orders Until Next Tier</div><div class="stat-value" id="pt-next">5</div></div>
+      <div class="stat-card"><div class="stat-label">Referral Code</div><div class="stat-value" style="font-size:1.1rem;" id="pt-referral">CNC-XXXX</div></div>
+    </div>
+
+    <div class="section-head"><div><h2>How It Works</h2></div></div>
+    <div class="grid grid--3" style="margin-bottom:2.5rem;">
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft);">
+        <h3 style="font-size:1.1rem;">Earn Points</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">Get 1 point for every Rs. 100 spent on any order.</p>
+      </div>
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft);">
+        <h3 style="font-size:1.1rem;">Climb Tiers</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">Bronze → Silver → Gold, unlocking free delivery and early access to new flavors.</p>
+      </div>
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft);">
+        <h3 style="font-size:1.1rem;">Refer & Earn</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">Share your referral code — you and your friend both get Rs. 200 off.</p>
+      </div>
+    </div>
+
+    <div class="section-head"><div><h2>Tiers</h2></div></div>
+    <div class="grid grid--3">
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); border-top:4px solid #b08d57;">
+        <h3 style="font-size:1.1rem;">🥉 Bronze</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">0 – 9 orders · Standard delivery</p>
+      </div>
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); border-top:4px solid #9a9a9a;">
+        <h3 style="font-size:1.1rem;">🥈 Silver</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">10 – 24 orders · Free delivery on weekends</p>
+      </div>
+      <div class="reveal" style="background:var(--warm-white); padding:var(--space-md); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); border-top:4px solid var(--caramel);">
+        <h3 style="font-size:1.1rem;">🥇 Gold</h3>
+        <p style="color:var(--brown-mid); margin-top:0.6rem;">25+ orders · Free delivery always + early access to new flavors</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Crumble & Cream</div>
+        <p style="font-size:0.92rem;">Handcrafted cakes, pastries and gifts, baked fresh and delivered across Karachi.</p>
+        <div class="social-row">
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">IG</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">FB</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">TT</a>
+          <a href="https://wa.me/923000000000" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">WA</a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="order-tracking.html">Track Order</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="cakes.html">Cakes</a></li>
+          <li><a href="pastries.html">Pastries</a></li>
+          <li><a href="chocolates.html">Chocolates</a></li>
+          <li><a href="special-gifts.html">Special Gifts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Subscribe For Sweet Updates</h4>
+        <p style="font-size:0.9rem;">New flavors, seasonal offers, and more — straight to your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); this.insertAdjacentHTML('afterend', '<p style=\'margin-top:0.6rem;font-size:0.85rem;color:var(--brown-mid);\'>Thanks for subscribing! (Email capture backend not connected yet.)</p>'); return false;">
+          <input type="email" placeholder="Your email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Crumble & Cream. All Rights Reserved. Delivering across Karachi.</div>
+  </div>
+  <div class="container footer-legal" style="padding:0.8rem 0; border-top:1px solid rgba(250,249,247,0.15); display:flex; flex-wrap:wrap; gap:0.7rem 1.2rem; font-size:0.8rem; opacity:0.85;">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-conditions.html">Terms &amp; Conditions</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="gift-cards.html">Gift Cards</a>
+    <a href="loyalty-rewards.html">Loyalty Rewards</a>
+    <a href="corporate-orders.html">Corporate Orders</a>
+    <a href="event-countdown.html">Event Countdown</a>
+    <a href="build-your-box.html">Build Your Own Box</a>
+    <a href="reviews-all.html">All Reviews</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/923000000000" class="btn-icon" style="position:fixed; bottom:24px; left:24px; width:56px; height:56px; background:#25D366; z-index:150; box-shadow:var(--shadow-lift);" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.77.46 3.45 1.32 4.94L2 22l5.29-1.38a9.9 9.9 0 004.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module">
+  import { protectPage } from './js/auth.js';
+  import { loadCustomerOrders, computeStats } from './js/customer-dashboard.js';
+
+  protectPage().then(({ user }) => {
+    loadCustomerOrders(user.uid, {
+      onOrders: (orders) => {
+        const delivered = orders.filter(o => o.status === 'Delivered');
+        const points = delivered.reduce((sum, o) => sum + Math.floor((o.total || 0) / 100), 0);
+        const tier = delivered.length >= 25 ? 'Gold' : delivered.length >= 10 ? 'Silver' : 'Bronze';
+        const nextThreshold = delivered.length >= 25 ? null : delivered.length >= 10 ? 25 : 10;
+
+        document.getElementById('pt-points').textContent = points;
+        document.getElementById('pt-tier').textContent = tier;
+        document.getElementById('pt-next').textContent = nextThreshold ? (nextThreshold - delivered.length) : '—';
+        document.getElementById('pt-referral').textContent = 'CNC-' + user.uid.slice(0, 5).toUpperCase();
+      }
+    });
+  });
+</script>
+</body>
+</html>
