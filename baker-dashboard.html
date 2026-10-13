@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Baker Dashboard — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="baker-dashboard.html" class="active">Dashboard</a>
+      <a href="baker-dashboard.html">Orders</a>
+      <a href="baker-products.html">Products</a>
+      <a href="baker-add-product.html">Add Product</a>
+      <a href="baker-customers.html">Customers</a>
+      <a href="baker-reviews.html">Reviews</a>
+      <a href="baker-messages.html">Messages</a>
+      <a href="baker-settings.html">Settings</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2>Baker Dashboard</h2>
+    <p style="color:var(--brown-mid); margin-bottom:2rem;">Drag order cards between columns to update their status in real time.</p>
+
+    <div class="dash-stats">
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value" id="stat-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value" id="stat-pending">0</div></div>
+      <div class="stat-card"><div class="stat-label">Today's Orders</div><div class="stat-value" id="stat-today">0</div></div>
+      <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="stat-revenue" style="font-size:1.4rem;">Rs. 0</div></div>
+    </div>
+
+    <div class="kanban-board" id="kanban-board"></div>
+  </main>
+</div>
+
+<!-- Order detail modal (opens when a kanban card is tapped) -->
+<div class="order-detail-overlay" id="order-detail-overlay" style="display:none;">
+  <div class="order-detail-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+      <h3 id="od-title">Order Details</h3>
+      <button class="btn-icon" id="od-close" style="width:34px;height:34px;">✕</button>
+    </div>
+    <div id="od-body"></div>
+  </div>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { watchAllOrders, renderBoard } from './js/baker-dashboard.js';
+  import { escapeHTML } from './js/products.js';
+
+  function openOrderDetail(order) {
+    document.getElementById('od-title').textContent = `Order #${order.id.slice(0, 6).toUpperCase()}`;
+    const itemsHTML = (order.products || []).map((item) => `
+      <div class="order-detail-item">
+        <div><strong>${escapeHTML(item.name)}</strong> × ${item.qty}</div>
+        ${item.size || item.flavor ? `<div>${escapeHTML([item.size, item.flavor].filter(Boolean).join(' · '))}</div>` : ''}
+        ${item.cakeMessage ? `<div class="odi-message">✎ Cake message: "${escapeHTML(item.cakeMessage)}"</div>` : ''}
+      </div>
+    `).join('') || '<p>No item details available.</p>';
+
+    document.getElementById('od-body').innerHTML = `
+      <p><strong>Customer:</strong> ${escapeHTML(order.customerName)} · ${escapeHTML(order.phone) || ''}</p>
+      <p style="margin-top:0.4rem;"><strong>Delivery:</strong> ${escapeHTML(order.address)}, ${escapeHTML(order.area)}, Karachi</p>
+      <p style="margin-top:0.4rem;"><strong>Slot:</strong> ${escapeHTML(order.deliveryDate)} · ${escapeHTML(order.deliveryTime)}</p>
+      ${order.notes ? `<p style="margin-top:0.4rem;"><strong>Order notes:</strong> ${escapeHTML(order.notes)}</p>` : ''}
+      ${order.bakeItForward ? `<p style="margin-top:0.4rem; color:#2f6d34;"><strong>🎁 Bake it Forward:</strong> customer added a treat for someone in need.</p>` : ''}
+      <h4 style="margin:1rem 0 0.6rem;">Items</h4>
+      ${itemsHTML}
+      <p style="margin-top:0.8rem; font-family:var(--font-display); color:var(--brown-deep);"><strong>Total: Rs. ${order.total?.toLocaleString()}</strong></p>
+      <p style="margin-top:0.3rem; font-size:0.85rem; color:var(--brown-mid);">Payment: ${escapeHTML(order.paymentMethod) || 'N/A'}</p>
+    `;
+    document.getElementById('order-detail-overlay').style.display = 'flex';
+  }
+
+  document.getElementById('od-close').addEventListener('click', () => {
+    document.getElementById('order-detail-overlay').style.display = 'none';
+  });
+  document.getElementById('order-detail-overlay').addEventListener('click', (e) => {
+    if (e.target.id === 'order-detail-overlay') e.currentTarget.style.display = 'none';
+  });
+
+  protectPage('baker').then(() => {
+    watchAllOrders((orders) => {
+      renderBoard('#kanban-board', orders, { onCardClick: openOrderDetail });
+
+      const today = new Date().toDateString();
+      const todayOrders = orders.filter((o) => o.createdAt?.seconds && new Date(o.createdAt.seconds * 1000).toDateString() === today);
+      const revenue = orders.filter((o) => o.status === 'Delivered').reduce((s, o) => s + (o.total || 0), 0);
+
+      document.getElementById('stat-total').textContent = orders.length;
+      document.getElementById('stat-pending').textContent = orders.filter(o => o.status === 'Pending').length;
+      document.getElementById('stat-today').textContent = todayOrders.length;
+      document.getElementById('stat-revenue').textContent = 'Rs. ' + revenue.toLocaleString();
+
+      // Animate stat counters on first load
+      gsap.from('.stat-value', { textContent: 0, duration: 0.8, snap: { textContent: 1 }, stagger: 0.1 });
+    });
+  });
+
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

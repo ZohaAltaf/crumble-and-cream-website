@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Reviews — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<button id="dash-hamburger" class="dash-hamburger" aria-label="Menu"><span></span></button>
+<div id="dash-scrim" class="dash-scrim"></div>
+<div class="dash-layout">
+  <aside class="dash-sidebar">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="dash-nav">
+      <a href="baker-dashboard.html">Dashboard</a>
+      <a href="baker-dashboard.html">Orders</a>
+      <a href="baker-products.html">Products</a>
+      <a href="baker-add-product.html">Add Product</a>
+      <a href="baker-customers.html">Customers</a>
+      <a href="baker-reviews.html" class="active">Reviews</a>
+      <a href="baker-messages.html">Messages</a>
+      <a href="baker-settings.html">Settings</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <h2 style="margin-bottom:0.3rem;">Reviews</h2>
+    <p style="color:var(--brown-mid); margin-bottom:1.5rem;">Approve reviews before they show up publicly on the Reviews page.</p>
+
+    <div id="reviews-list">
+      <p style="color:var(--brown-mid);">Loading reviews...</p>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  import { protectPage, logout } from './js/auth.js';
+  import { initDashNav } from './js/dash-nav.js';
+  initDashNav();
+  import { loadReviewsForAdmin, setReviewApproved, deleteReview } from './js/baker-admin.js';
+  import { showToast } from './js/toast.js';
+  import { escapeHTML } from './js/products.js';
+
+  let reviews = [];
+
+  function render() {
+    const list = document.getElementById('reviews-list');
+    if (reviews.length === 0) {
+      list.innerHTML = `<p style="color:var(--brown-mid);">No reviews submitted yet.</p>`;
+      return;
+    }
+    list.innerHTML = reviews.map(r => `
+      <div class="order-card">
+        <div class="order-card-top">
+          <span style="font-family:var(--font-display); color:var(--brown-deep);">${'★'.repeat(r.rating||5)}${'☆'.repeat(5-(r.rating||5))}</span>
+          <span class="status-pill" data-status="${r.approved ? 'Delivered' : 'Pending'}">${r.approved ? 'Approved' : 'Pending Approval'}</span>
+        </div>
+        <p style="margin-bottom:0.5rem;">"${escapeHTML(r.comment) || ''}"</p>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.85rem; color:var(--brown-mid);">— ${escapeHTML(r.name) || 'Anonymous'}</span>
+          <div style="display:flex; gap:0.6rem;">
+            ${r.approved
+              ? `<button class="btn btn-outline unapprove-btn" data-id="${r.id}" style="padding:0.4rem 0.9rem; font-size:0.78rem;">Unapprove</button>`
+              : `<button class="btn btn-primary approve-btn" data-id="${r.id}" style="padding:0.4rem 0.9rem; font-size:0.78rem;">Approve</button>`}
+            <button class="btn btn-outline delete-btn" data-id="${r.id}" style="padding:0.4rem 0.9rem; font-size:0.78rem; border-color:#b23b2f; color:#b23b2f;">Delete</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.approve-btn').forEach(btn => btn.addEventListener('click', () => setApproved(btn.dataset.id, true)));
+    list.querySelectorAll('.unapprove-btn').forEach(btn => btn.addEventListener('click', () => setApproved(btn.dataset.id, false)));
+    list.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => onDelete(btn.dataset.id)));
+  }
+
+  async function setApproved(id, value) {
+    try {
+      await setReviewApproved(id, value);
+      reviews.find(r => r.id === id).approved = value;
+      render();
+      showToast(value ? 'Review approved.' : 'Review unapproved.');
+    } catch (err) {
+      console.error(err);
+      showToast('Could not update review.', 'error');
+    }
+  }
+
+  async function onDelete(id) {
+    if (!confirm('Delete this review?')) return;
+    try {
+      await deleteReview(id);
+      reviews = reviews.filter(r => r.id !== id);
+      render();
+      showToast('Review deleted.');
+    } catch (err) {
+      console.error(err);
+      showToast('Could not delete review.', 'error');
+    }
+  }
+
+  protectPage('baker').then(async () => {
+    try {
+      reviews = await loadReviewsForAdmin();
+      render();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('reviews-list').innerHTML = `<p style="color:var(--brown-mid);">Could not load reviews.</p>`;
+    }
+  });
+
+  document.getElementById('logout-link').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

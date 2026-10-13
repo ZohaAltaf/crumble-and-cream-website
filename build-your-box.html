@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3E2723" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<title>Build Your Own Box — Crumble & Cream</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">Crumble <em>&</em> Cream</a>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="cakes.html">Shop</a><a href="contact.html">Contact</a></nav>
+    <div class="header-actions"><a href="cart.html" class="btn-icon" id="cart-icon" style="position:relative;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3E2723" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 002 1.6h8.2a2 2 0 002-1.6L21 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg><span class="cart-badge">0</span></a><button class="hamburger"><span></span></button></div>
+  </div>
+</header>
+<div class="nav-scrim"></div>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="cakes.html">Shop</a>
+  <a href="special-gifts.html">Special Gifts</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><div><p class="eyebrow">Mix & Match</p><h1>Build Your Own Box</h1></div></div>
+    <p style="color:var(--brown-mid); margin-bottom:2rem;">Pick any 6 pieces from cupcakes, pastries, and nimco — one flat box price.</p>
+
+    <div class="grid" style="grid-template-columns: 1fr 340px; gap: var(--space-lg); align-items:start;">
+      <div class="grid grid--4" id="pick-items"></div>
+
+      <div style="background:var(--warm-white); border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-soft); position:sticky; top:110px;">
+        <h3 style="margin-bottom:1rem;">Your Box</h3>
+        <div id="box-slots" style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem; min-height:120px;"></div>
+        <p style="font-size:0.85rem; color:var(--brown-mid); margin-bottom:1rem;"><span id="box-count">0</span> / 6 selected</p>
+        <div style="display:flex; justify-content:space-between; font-family:var(--font-display); font-size:1.2rem; color:var(--brown-deep); margin-bottom:1.2rem;"><span>Box Price</span><span>Rs. 1,800</span></div>
+        <button class="btn btn-primary magnetic" id="add-box-btn" style="width:100%; justify-content:center;" disabled>Add Box to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Crumble & Cream</div>
+        <p style="font-size:0.92rem;">Handcrafted cakes, pastries and gifts, baked fresh and delivered across Karachi.</p>
+        <div class="social-row">
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">IG</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">FB</a>
+          <a href="#" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">TT</a>
+          <a href="https://wa.me/923000000000" class="btn-icon" style="background:rgba(250,249,247,0.1); border-color:rgba(250,249,247,0.2);">WA</a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="order-tracking.html">Track Order</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="cakes.html">Cakes</a></li>
+          <li><a href="pastries.html">Pastries</a></li>
+          <li><a href="chocolates.html">Chocolates</a></li>
+          <li><a href="special-gifts.html">Special Gifts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Subscribe For Sweet Updates</h4>
+        <p style="font-size:0.9rem;">New flavors, seasonal offers, and more — straight to your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); this.insertAdjacentHTML('afterend', '<p style=\'margin-top:0.6rem;font-size:0.85rem;color:var(--brown-mid);\'>Thanks for subscribing! (Email capture backend not connected yet.)</p>'); return false;">
+          <input type="email" placeholder="Your email" required />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Crumble & Cream. All Rights Reserved. Delivering across Karachi.</div>
+  </div>
+  <div class="container footer-legal" style="padding:0.8rem 0; border-top:1px solid rgba(250,249,247,0.15); display:flex; flex-wrap:wrap; gap:0.7rem 1.2rem; font-size:0.8rem; opacity:0.85;">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-conditions.html">Terms &amp; Conditions</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="gift-cards.html">Gift Cards</a>
+    <a href="loyalty-rewards.html">Loyalty Rewards</a>
+    <a href="corporate-orders.html">Corporate Orders</a>
+    <a href="event-countdown.html">Event Countdown</a>
+    <a href="build-your-box.html">Build Your Own Box</a>
+    <a href="reviews-all.html">All Reviews</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/923000000000" class="btn-icon" style="position:fixed; bottom:24px; left:24px; width:56px; height:56px; background:#25D366; z-index:150; box-shadow:var(--shadow-lift);" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.77.46 3.45 1.32 4.94L2 22l5.29-1.38a9.9 9.9 0 004.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/cart.js"></script>
+<script type="module">
+  import { addToCart } from './js/cart.js';
+  import { showToast } from './js/toast.js';
+  import { initScrollReveal } from './js/animations.js';
+
+  const BOX_PRICE = 1800;
+  const MAX_PICKS = 6;
+
+  const ITEMS = [
+    { id: 'bx-1', name: 'Chocolate Cupcake' }, { id: 'bx-2', name: 'Red Velvet Cupcake' },
+    { id: 'bx-3', name: 'Vanilla Pastry' }, { id: 'bx-4', name: 'Chocolate Éclair' },
+    { id: 'bx-5', name: 'Nimco Mix' }, { id: 'bx-6', name: 'Samosa Roll' },
+    { id: 'bx-7', name: 'Cream Puff' }, { id: 'bx-8', name: 'Caramel Cupcake' }
+  ];
+
+  let picks = [];
+
+  const grid = document.getElementById('pick-items');
+  grid.innerHTML = ITEMS.map((item) => `
+    <div class="product-card reveal" data-id="${item.id}" style="cursor:pointer;">
+      <div class="product-media"><div class="ph" data-label="${item.name}"></div></div>
+      <div class="product-info">
+        <h4>${item.name}</h4>
+        <button class="add-to-cart-btn pick-btn" data-id="${item.id}" data-name="${item.name}">Add to Box</button>
+      </div>
+    </div>
+  `).join('');
+  initScrollReveal();
+
+  function renderBox() {
+    document.getElementById('box-count').textContent = picks.length;
+    document.getElementById('box-slots').innerHTML = picks.length
+      ? picks.map((p, i) => `<div style="display:flex; justify-content:space-between; font-size:0.88rem;"><span>${p.name}</span><button data-index="${i}" class="remove-pick" style="color:#b23b2f;">×</button></div>`).join('')
+      : `<p style="font-size:0.85rem; color:#a39d97;">Nothing selected yet.</p>`;
+
+    document.getElementById('add-box-btn').disabled = picks.length !== MAX_PICKS;
+
+    document.querySelectorAll('.remove-pick').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        picks.splice(parseInt(btn.dataset.index), 1);
+        renderBox();
+      });
+    });
+  }
+
+  grid.querySelectorAll('.pick-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (picks.length >= MAX_PICKS) { showToast(`You can only pick ${MAX_PICKS} items.`, 'error'); return; }
+      picks.push({ id: btn.dataset.id, name: btn.dataset.name });
+      renderBox();
+    });
+  });
+
+  document.getElementById('add-box-btn').addEventListener('click', () => {
+    addToCart({ id: 'custom-box-' + Date.now(), name: `Custom Box (${picks.map(p=>p.name).join(', ')})`, price: BOX_PRICE, image: null, size: null, flavor: null });
+    picks = [];
+    renderBox();
+  });
+
+  renderBox();
+</script>
+</body>
+</html>
