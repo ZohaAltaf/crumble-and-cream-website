@@ -313,7 +313,7 @@
 <!-- Firebase & Root Config Scripts -->
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="auth.js"></script>
-<script type="module" src="demo-store.js"></script>
+<script type="module" src="demo-store.js"></script>  
 <script type="module" src="products.js"></script>
 <script type="module" src="cart.js"></script>
 <script type="module" src="toast.js"></script>
@@ -322,16 +322,18 @@
 <script type="module" src="js/animations.js"></script>
 <script type="module" src="js/main.js"></script>
 <script type="module">
-  import { loadFeaturedProducts, searchProducts } from './js/products.js';
+  import { loadFeaturedProducts, searchProducts } from './products.js';
 
   loadFeaturedProducts('#featured-products', 8);
 
   const input = document.getElementById('search-input');
   let debounceTimer;
-  input.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => searchProducts(input.value, '#search-results'), 350);
-  });
+  if (input) {
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => searchProducts(input.value, '#search-results'), 350);
+    });
+  }
 </script>
 </body>
 </html>
