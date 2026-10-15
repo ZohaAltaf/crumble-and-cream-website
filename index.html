@@ -310,22 +310,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
-<!-- Root Directory JavaScript Files -->
+<!-- 1. Files directly in Root Directory (Bina js/ folder ke) -->
 <script type="module" src="/firebase-config.js"></script>
-<script type="module" src="/products.js"></script>
 <script type="module" src="/cart.js"></script>
 <script type="module" src="/toast.js"></script>
+<script type="module" src="/checkout.js"></script>
+<script type="module" src="/dash-nav.js"></script>
+<script type="module" src="/customer-dashboard.js"></script>
 
-<!-- js/ Folder JavaScript Files -->
-<script type="module" src="/js/animations.js"></script>
+<!-- 2. Files inside /js/ Folder -->
+<script type="module" src="/js/products.js"></script>
 <script type="module" src="/js/auth.js"></script>
 <script type="module" src="/js/baker-admin.js"></script>
 <script type="module" src="/js/demo-store.js"></script>
+<script type="module" src="/js/animations.js"></script>
 <script type="module" src="/js/main.js"></script>
 
-<!-- Page Specific Inline Script -->
+<!-- 3. Page-Specific Inline Script -->
 <script type="module">
-  import { loadFeaturedProducts, searchProducts } from '/products.js';
+  import { loadFeaturedProducts, searchProducts } from '/js/products.js';
 
   loadFeaturedProducts('#featured-products', 8);
 
