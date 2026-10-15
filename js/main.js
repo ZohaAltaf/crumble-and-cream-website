@@ -2,7 +2,11 @@
 // AUTH.JS — Firebase Authentication
 // ============================================
 
-import { auth, db } from './firebase-config.js';
+// 1. Jo files Root Folder mein hain, unke liye '../' use karein
+import { auth, db } from '../firebase-config.js';
+import { showToast } from '../toast.js';
+
+// 2. Firebase SDKs CDN se direct import hote hain (yeh bilkul theek hain)
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,7 +22,8 @@ import {
   getDoc,
   serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { showToast } from './toast.js';
+
+// 3. Jo files khud bhi 'js/' folder ke andar hain, unke liye './' theek hai
 import { isFirebaseConfigured } from './products.js';
 import {
   getDemoUsers,
